@@ -11,7 +11,7 @@ import SceneKit
 import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
-
+    
     @IBOutlet var sceneView: ARSCNView!
     
     override func viewDidLoad() {
@@ -20,22 +20,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the view's delegate
         sceneView.delegate = self
         
-        // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
-        
-        // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        
-        // Set the scene to the view
-        sceneView.scene = scene
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
-
+        let configuration = ARImageTrackingConfiguration()
+        
+        // first see if there is a folder called "ARImages" Resource Group in our Assets Folder
+        if let trackedImages = ARReferenceImage.referenceImages(inGroupNamed: "ARImages", bundle: Bundle.main) {
+            
+            // if there is, set the images to track
+            configuration.trackingImages = trackedImages
+            // at any point in time, only 1 image will be tracked
+            configuration.maximumNumberOfTrackedImages = 1
+        }
+        
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -46,30 +47,46 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
-
+    
     // MARK: - ARSCNViewDelegate
     
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
-    }
-*/
-    
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+        // if the anchor is not of type ARImageAnchor (which means image is not detected), just return
+        guard let imageAnchor = anchor as? ARImageAnchor, let fileUrlString = Bundle.main.path(forResource: "black", ofType: "mp4") else {return}
+        //find our video file
         
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
+        let videoItem = AVPlayerItem(url: URL(fileURLWithPath: fileUrlString))
         
+        let player = AVPlayer(playerItem: videoItem)
+        //initialize video node with avplayer
+        let videoNode = SKVideoNode(avPlayer: player)
+        
+        player.play()
+        // add observer when our player.currentItem finishes player, then start playing from the beginning
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: nil) { (notification) in
+            player.seek(to: CMTime.zero)
+            player.play()
+            print("Looping Video")
+        }
+        
+        // set the size (just a rough one will do)
+        let videoScene = SKScene(size: CGSize(width: 480, height: 360))
+        // center our video to the size of our video scene
+        videoNode.position = CGPoint(x: videoScene.size.width / 2, y: videoScene.size.height / 2)
+        // invert our video so it does not look upside down
+        videoNode.yScale = -1.0
+        // add the video to our scene
+        videoScene.addChild(videoNode)
+        // create a plan that has the same real world height and width as our detected image
+        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height)
+        // set the first materials content to be our video scene
+        plane.firstMaterial?.diffuse.contents = videoScene
+        // create a node out of the plane
+        let planeNode = SCNNode(geometry: plane)
+        // since the created node will be vertical, rotate it along the x axis to have it be horizontal or parallel to our detected image
+        planeNode.eulerAngles.x = -Float.pi / 2
+        // finally add the plane node (which contains the video node) to the added node
+        node.addChildNode(planeNode)
     }
 }

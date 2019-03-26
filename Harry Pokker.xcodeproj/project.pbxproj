@@ -13,6 +13,7 @@
 		05B5C6582249FA1900B7621A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B5C6562249FA1900B7621A /* Main.storyboard */; };
 		05B5C65A2249FA1B00B7621A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05B5C6592249FA1B00B7621A /* Assets.xcassets */; };
 		05B5C65D2249FA1B00B7621A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B5C65B2249FA1B00B7621A /* LaunchScreen.storyboard */; };
+		05B5C6652249FB8700B7621A /* black.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 05B5C6642249FB8700B7621A /* black.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		05B5C6592249FA1B00B7621A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		05B5C65C2249FA1B00B7621A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		05B5C65E2249FA1B00B7621A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		05B5C6642249FB8700B7621A /* black.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = black.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				05B5C6592249FA1B00B7621A /* Assets.xcassets */,
 				05B5C65B2249FA1B00B7621A /* LaunchScreen.storyboard */,
 				05B5C65E2249FA1B00B7621A /* Info.plist */,
+				05B5C6642249FB8700B7621A /* black.mp4 */,
 			);
 			path = "Harry Pokker";
 			sourceTree = "<group>";
@@ -127,6 +130,7 @@
 			files = (
 				05B5C6532249FA1900B7621A /* art.scnassets in Resources */,
 				05B5C65D2249FA1B00B7621A /* LaunchScreen.storyboard in Resources */,
+				05B5C6652249FB8700B7621A /* black.mp4 in Resources */,
 				05B5C65A2249FA1B00B7621A /* Assets.xcassets in Resources */,
 				05B5C6582249FA1900B7621A /* Main.storyboard in Resources */,
 			);
@@ -289,6 +293,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CN924VFVRA;
 				INFOPLIST_FILE = "Harry Pokker/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,6 +312,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CN924VFVRA;
 				INFOPLIST_FILE = "Harry Pokker/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
